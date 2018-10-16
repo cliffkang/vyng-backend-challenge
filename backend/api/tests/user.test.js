@@ -10,11 +10,11 @@ chai.use(chaiHTTP);
 
 describe('User', () => {
   before((done) => {
-    mongoose.connect('mongodb://localhost/testVyng');
+    mongoose.connect('mongodb://localhost/testVyng', { useNewUrlParser: true });
     const db = mongoose.connection;
     db.on('error', () => console.error.bind(console, 'connection error'));
     db.once('open', () => {
-      console.log('connected!');
+      console.log('Mongo connected!');
       done();
     });
   });
@@ -27,7 +27,7 @@ describe('User', () => {
 
   describe('[POST] /user', () => {
     it('should add a new user', (done) => {
-      const newUser = new User({ name: 'newbie' });
+      const newUser = { name: 'newbie' };
       chai
         .request(server)
         .post('/user')
@@ -39,38 +39,34 @@ describe('User', () => {
           }
           expect(res.status).to.equal(200);
           expect(res.body['user successfully registered'].name).to.equal('newbie');
+          done();
         });
-      done();
     });
 
     it('returns status 422 if no name parameter sent', (done) => {
-      const newUser = new User({ owner: 'newbie' });
+      const newUser = { owner: 'newbie' };
       chai
         .request(server)
         .post('/user')
         .send(newUser)
         .end((err, res) => {
-          if (err) {
-            expect(res.status).to.equal(422);
-            const { error } = err.response.body;
-            expect(error).to.equal('Please send a name');
-          }
+          expect(res.status).to.equal(422);
+          const error = res.error.text;
+          expect(error).to.equal('Please send a name');
           done();
         });
     });
 
     it('returns status 422 if name too short', (done) => {
-      const newUser = new User({ name: 'I' });
+      const newUser = { name: 'I' };
       chai
         .request(server)
         .post('/user')
         .send(newUser)
-        .end((err, res) => {
-          if (err) {
-            expect(res.status).to.equal(422);
-            const errorMsg = err.response.body.error.name.kind;
-            expect(errorMsg).to.equal('minlength');
-          }
+        .end((error, res) => {
+          expect(res.status).to.equal(422);
+          const minLengthFound = res.error.text.indexOf('"kind":"minlength"');
+          expect(minLengthFound).to.not.equal(-1);
           done();
         });
     });

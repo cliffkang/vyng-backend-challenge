@@ -9,11 +9,11 @@ const Video = require('../models/videoModel');
 
 describe('Video', () => {
   before((done) => {
-    mongoose.connect('mongodb://localhost/testVyng');
+    mongoose.connect('mongodb://localhost/testVyng', { useNewUrlParser: true });
     const db = mongoose.connection;
     db.on('error', () => console.error.bind(console, 'connection error'));
     db.once('open', () => {
-      console.log('connected!');
+      console.log('Mongo connected!');
       done();
     });
   });
