@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon App.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha ./api/tests/user.test.js"
   },
   "repository": {
     "type": "git",
@@ -28,8 +28,12 @@
     "morgan": "^1.9.1"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
     "eslint": "^5.7.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0"
+    "eslint-plugin-import": "^2.14.0",
+    "mocha": "^5.2.0",
+    "sinon": "^7.0.0"
   }
 }
