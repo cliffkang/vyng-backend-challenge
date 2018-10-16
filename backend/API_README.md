@@ -7,3 +7,7 @@ API expects data of type `JSON`.
 
 | Method > endpoint | SEND | RECEIVE |
 | -------------- |:--------------:| -----:|
+| 'POST' > '/user' | `body: { name }` | `{ name }` |
+| 'POST' > '/channel' | `body: { name, owner }` | `{ channel }` |
+| 'GET' > '/channels' | `body: { owner }` | `[channels]` |
+| 'POST' > '/video' | `body: { url, channel }` | `{ video }` |
