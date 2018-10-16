@@ -10,7 +10,7 @@ const HashtagSchema = mongoose.Schema({
     minlength: 2,
     maxlength: 50,
   },
-  owner: [{
+  videos: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: Video,
   }],

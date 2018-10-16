@@ -2,6 +2,16 @@ const Video = require('../models/videoModel');
 const Channel = require('../models/channelModel');
 const Hashtag = require('../models/hashtagModel');
 
+const saveHashtag = (tag, videoId) => {
+  Hashtag.findOneAndUpdate(
+    { tag },
+    { $addToSet: { videos: videoId } },
+    { upsert: true, returnNewDocument: true },
+  )
+    .then(newTag => console.log('successfully created/updated hashtag', newTag))
+    .catch(err => console.error('unsuccessfully updated hashtag', err));
+};
+
 const createVideo = (req, res) => {
   const { url, channel, hashtags } = req.body;
   if (url && channel) {
@@ -12,10 +22,8 @@ const createVideo = (req, res) => {
         newVideo.channel = chan._id;
         newVideo.save()
           .then((video) => {
-            video.hashtags.forEach((hashtag) => {
-              if (hashtag)
-            })
-            res.status(201).send({ 'video successfully saved': video })
+            video.hashtags.forEach(hashtag => saveHashtag(hashtag, video._id));
+            res.status(201).send({ 'video successfully saved': video });
           })
           .catch(err => res.status(422).send({ 'error saving video': err }));
       })
