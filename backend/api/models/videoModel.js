@@ -11,6 +11,7 @@ const VideoSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: Channel,
   },
+  hashtags: [String],
 }, { timestamps: true });
 
 module.exports = mongoose.model('Video', VideoSchema);
