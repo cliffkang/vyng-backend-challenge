@@ -8,7 +8,6 @@ const saveHashtag = (tag, videoId) => {
     { $addToSet: { videos: videoId } },
     { upsert: true, returnNewDocument: true },
   )
-    .then(newTag => console.log('successfully created/updated hashtag', newTag))
     .catch(err => console.error('unsuccessfully updated hashtag', err));
 };
 

@@ -44,7 +44,7 @@ describe('User', () => {
     });
 
     it('returns status 422 if no name parameter sent', (done) => {
-      const newUser = { owner: 'newbie' };
+      const newUser = { owner: 'newbie' }; // should be name, not owner
       chai
         .request(server)
         .post('/user')
@@ -58,7 +58,7 @@ describe('User', () => {
     });
 
     it('returns status 422 if name too short', (done) => {
-      const newUser = { name: 'I' };
+      const newUser = { name: 'I' }; // name is too short (at least 2 chars)
       chai
         .request(server)
         .post('/user')

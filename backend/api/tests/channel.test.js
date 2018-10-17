@@ -72,7 +72,7 @@ describe('Channel', () => {
     });
 
     it('should return error when no owner sent', (done) => {
-      const newChannel = { name: 'kpop1', user: testUser.name };
+      const newChannel = { name: 'kpop1', user: testUser.name }; // error: user should be owner
       chai
         .request(server)
         .post('/channel')
@@ -85,7 +85,7 @@ describe('Channel', () => {
     });
 
     it('should return error when no name sent', (done) => {
-      const newChannel = { channel: 'kpop2', owner: testUser.name };
+      const newChannel = { channel: 'kpop2', owner: testUser.name }; // error: channel should be name
       chai
         .request(server)
         .post('/channel')
@@ -98,7 +98,7 @@ describe('Channel', () => {
     });
 
     it('should return error if no owner found', (done) => {
-      const newChannel = { name: 'kpop3', owner: 'kpop4' };
+      const newChannel = { name: 'kpop3', owner: 'kpop4' }; // error: kpop4 not in db
       chai
         .request(server)
         .post('/channel')
@@ -112,7 +112,7 @@ describe('Channel', () => {
     });
 
     it('should return error if channel name not at least 2 characters long', (done) => {
-      const newChannel = { name: 'k', owner: testUser.name };
+      const newChannel = { name: 'k', owner: testUser.name }; // error: 'k' is only 1 character long
       chai
         .request(server)
         .post('/channel')
@@ -143,7 +143,7 @@ describe('Channel', () => {
       chai
         .request(server)
         .get('/channels')
-        .query({ name: testUser.name })
+        .query({ name: testUser.name }) // should be owner, not name
         .end((err, res) => {
           expect(res.status).to.equal(400);
           expect(res.error.text).to.equal('owner of video not given');
@@ -155,7 +155,7 @@ describe('Channel', () => {
       chai
         .request(server)
         .get('/channels')
-        .query({ owner: testUser._id })
+        .query({ owner: testUser._id }) // should be owner's name not mongo _id
         .end((err, res) => {
           expect(res.status).to.equal(422);
           expect(res.error.text.slice(2, 16)).to.equal('user not found');
