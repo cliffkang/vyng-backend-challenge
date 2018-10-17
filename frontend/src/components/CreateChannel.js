@@ -17,6 +17,7 @@ const styles = theme => ({
   heading: {
     fontSize: '25px',
     fontWeight: theme.typography.fontWeightRegular,
+    color: '#424242',
   },
   textField: {
     marginRight: theme.spacing.unit,
