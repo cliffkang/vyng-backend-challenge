@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import CreateUser from './CreateUser';
 import CreateChannel from './CreateChannel';
 import AddVideo from './AddVideo';
+import DisplayVideo from './DisplayVideo';
 import styled from 'styled-components';
 
 const Creators = styled.div`
-  width: 400px;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
 `;
 
 class Homepage extends Component {
@@ -25,6 +25,7 @@ class Homepage extends Component {
           <CreateChannel />
           <AddVideo />
         </Creators>
+        <DisplayVideo />
       </div>
     );
   }

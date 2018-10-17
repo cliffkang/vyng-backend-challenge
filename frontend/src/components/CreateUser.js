@@ -14,16 +14,22 @@ const styles = theme => ({
     width: '400px',
   },
   heading: {
-    fontSize: theme.typography.pxToRem(15),
+    fontSize: '25px',
     fontWeight: theme.typography.fontWeightRegular,
   },
   textField: {
-    marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: 200,
+    width: '100%',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
   },
   button: {
-    height: '100%',
+    marginTop: '15px',
+    width: '100%',
+    marginBottom: '72px',
   },
 });
 
@@ -48,7 +54,7 @@ class CreateUser extends React.Component {
             <Typography className={classes.heading}>Create a User</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <form>
+            <form className={classes.form}>
               <TextField
                 label="Username?"
                 placeholder="names must be unique"

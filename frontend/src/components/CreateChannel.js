@@ -15,13 +15,12 @@ const styles = theme => ({
     width: '400px',
   },
   heading: {
-    fontSize: theme.typography.pxToRem(15),
+    fontSize: '25px',
     fontWeight: theme.typography.fontWeightRegular,
   },
   textField: {
-    marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: 200,
+    width: '100%',
   },
   container: {
     display: 'flex',
@@ -29,10 +28,12 @@ const styles = theme => ({
   },
   form: {
     display: 'flex',
-    alignItems: 'flex-end',
+    flexDirection: 'column',
   },
   button: {
-    height: '100%',
+    marginTop: '15px',
+    marginBottom: '10px',
+    width: '100%',
   },
 });
 
