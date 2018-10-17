@@ -25,7 +25,7 @@ const getAllChannels = (req, res) => {
       .then((result) => {
         Channel.find({ owner: result._id })
           .then(channels => res.status(200).send({ channels }))
-          .catch(err => res.status(422).send({ 'error finding username': err }));
+          .catch(err => res.status(422).send({ 'error finding channels': err }));
       })
       .catch(err => res.status(422).send({ 'user not found': err }));
   } else {

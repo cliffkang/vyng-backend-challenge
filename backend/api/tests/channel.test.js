@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 const chaiHTTP = require('chai-http');
-const sinon = require('sinon');
 const chai = require('chai');
 
 const { expect } = chai;
 const server = require('../../server');
 const Channel = require('../models/channelModel');
 const User = require('../models/userModel');
+
+chai.use(chaiHTTP);
 
 describe('Channel', () => {
   before((done) => {
@@ -32,7 +33,13 @@ describe('Channel', () => {
     newUser.save()
       .then((user) => {
         testUser = user;
-        done();
+        const newChannels = [
+          { name: 'korean pop', owner: testUser._id },
+          { name: 'bhangra', owner: testUser._id },
+        ];
+        Channel.insertMany(newChannels, () => {
+          done();
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -42,6 +49,9 @@ describe('Channel', () => {
 
   afterEach((done) => {
     User.deleteOne({ name: 'newbie' }, (err) => {
+      if (err) console.error(err);
+    });
+    Channel.deleteMany({}, (err) => {
       if (err) console.error(err);
       done();
     });
@@ -55,14 +65,10 @@ describe('Channel', () => {
         .post('/channel')
         .send(newChannel)
         .end((err, res) => {
-          if (err) {
-            console.error(err);
-            done();
-          }
           expect(res.status).to.equal(201);
           expect(res.body['new channel saved properly'].name).to.equal('kpop');
+          done();
         });
-      done();
     });
 
     it('should return error when no owner sent', (done) => {
@@ -72,10 +78,8 @@ describe('Channel', () => {
         .post('/channel')
         .send(newChannel)
         .end((err, res) => {
-          if (err) {
-            expect(res.status).to.equal(400);
-            expect(err.response.body.error).to.equal('name and/or owner of video not given');
-          }
+          expect(res.status).to.equal(400);
+          expect(res.error.text).to.equal('name and/or owner of video not given');
           done();
         });
     });
@@ -87,10 +91,8 @@ describe('Channel', () => {
         .post('/channel')
         .send(newChannel)
         .end((err, res) => {
-          if (err) {
-            expect(res.status).to.equal(400);
-            expect(err.response.body.error).to.equal('name and/or owner of video not given');
-          }
+          expect(res.status).to.equal(400);
+          expect(res.error.text).to.equal('name and/or owner of video not given');
           done();
         });
     });
@@ -102,12 +104,61 @@ describe('Channel', () => {
         .post('/channel')
         .send(newChannel)
         .end((err, res) => {
-          console.log('ERR is', err);
-          // console.log('RES is', res);
-          if (err) {
-            expect(res.status).to.equal(422);
-            expect(err.res.body.error).to.equal('name and/or owner of video not given');
-          }
+          expect(res.status).to.equal(422);
+          const errorMsg = res.error.text.slice(2, 20);
+          expect(errorMsg).to.equal('error finding user');
+          done();
+        });
+    });
+
+    it('should return error if channel name not at least 2 characters long', (done) => {
+      const newChannel = { name: 'k', owner: testUser.name };
+      chai
+        .request(server)
+        .post('/channel')
+        .send(newChannel)
+        .end((err, res) => {
+          expect(res.status).to.equal(422);
+          const errorMsg = res.error.text.slice(2, 22);
+          expect(errorMsg).to.equal('error saving channel');
+          done();
+        });
+    });
+  });
+
+  describe('[GET] /channels', () => {
+    it('should get all channels', (done) => {
+      chai
+        .request(server)
+        .get('/channels')
+        .query({ owner: testUser.name })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body.channels.length).to.equal(2);
+          done();
+        });
+    });
+
+    it('should error when no owner given', (done) => {
+      chai
+        .request(server)
+        .get('/channels')
+        .query({ name: testUser.name })
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.error.text).to.equal('owner of video not given');
+          done();
+        });
+    });
+
+    it('should error when incorrect owner given', (done) => {
+      chai
+        .request(server)
+        .get('/channels')
+        .query({ owner: testUser._id })
+        .end((err, res) => {
+          expect(res.status).to.equal(422);
+          expect(res.error.text.slice(2, 16)).to.equal('user not found');
           done();
         });
     });
