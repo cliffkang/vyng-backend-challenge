@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -8,6 +10,8 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Snackbar from './Snackbar'
+import ROOT_URL from './config';
 
 const styles = theme => ({
   root: {
@@ -38,21 +42,39 @@ class CreateUser extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      title: 'Create a User',
       name: '',
+      open: false,
+      snackbar: false,
+      snackbarMsg: '',
     };
   }
 
-  handleSubmit = (event) => {
-    this.setState({ name: this.state.name });
-  }
+  handleClick = () => this.setState({ open: !this.state.open });
+
+  handleChange = (event) => this.setState({ name: event.target.value });
+
+  handleSubmit = () => {
+    axios.post(`${ROOT_URL}/user`, { name: this.state.name })
+      .then(createdUser => {
+        const { name } = createdUser.data['user successfully registered'];
+        this.setState({ 
+          title: `user created: ${name}`,
+          open: false,
+          snackbar: true,
+          snackbarMsg: 'user successfully registered',
+        });
+      })
+      .catch(err => this.setState({ snackbar: true, snackbarMsg: 'err' + err }));
+  };
 
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <ExpansionPanel>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Create a User</Typography>
+        <ExpansionPanel expanded={this.state.open}>
+          <ExpansionPanelSummary onClick={this.handleClick} expandIcon={<ExpandMoreIcon onClick={this.handleClick} />}>
+            <Typography className={classes.heading}>{this.state.title}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <form className={classes.form}>
@@ -60,6 +82,7 @@ class CreateUser extends React.Component {
                 label="Username?"
                 placeholder="names must be unique"
                 value={this.state.name}
+                onChange={this.handleChange}
                 className={classes.textField}
                 margin="normal"
               />
@@ -74,6 +97,9 @@ class CreateUser extends React.Component {
             </form>
           </ExpansionPanelDetails>
         </ExpansionPanel>
+        {this.state.snackbar ? 
+          <Snackbar message='user successfully created'/>
+        : null }
       </div>
     );
   };
