@@ -15,11 +15,11 @@ const styles = theme => ({
   },
 });
 
-class SimpleListMenu extends React.Component {
+class UserPicker extends React.Component {
   state = {
     anchorEl: null,
     selectedIndex: 1,
-    options: [],
+    users: this.props.users,
   };
 
   handleClickListItem = event => {
@@ -50,34 +50,36 @@ class SimpleListMenu extends React.Component {
             onClick={this.handleClickListItem}
           >
             <ListItemText
-              primary="First pick a user (click)"
-              secondary={this.state.options[this.state.selectedIndex]}
+              primary="First pick a user"
+              secondary='(click)'
             />
           </ListItem>
         </List>
-        <Menu
-          id="lock-menu"
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={this.handleClose}
-        >
-          {this.state.options.map((option, index) => (
-            <MenuItem
-              key={option}
-              selected={index === this.state.selectedIndex}
-              onClick={event => this.handleMenuItemClick(event, index)}
-            >
-              {option}
-            </MenuItem>
-          ))}
-        </Menu>
+        {this.props.users ? 
+          <Menu
+            id="lock-menu"
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={this.handleClose}
+          >
+            {this.state.users.map((user, index) => (
+              <MenuItem
+                key={user}
+                selected={index === this.state.selectedIndex}
+                onClick={event => this.handleMenuItemClick(event, index)}
+              >
+                {user}
+              </MenuItem>
+            ))}
+          </Menu>
+        : null }
       </div>
     );
   }
 }
 
-SimpleListMenu.propTypes = {
+UserPicker.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SimpleListMenu);
+export default withStyles(styles)(UserPicker);
