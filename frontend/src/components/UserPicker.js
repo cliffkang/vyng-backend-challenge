@@ -20,6 +20,8 @@ class UserPicker extends React.Component {
     anchorEl: null,
     selectedIndex: 1,
     users: this.props.users,
+    listPrimaryText: 'First pick a user',
+    listSecondaryText: '(click)',
   };
 
   handleClickListItem = event => {
@@ -27,7 +29,15 @@ class UserPicker extends React.Component {
   };
 
   handleMenuItemClick = (event, index) => {
-    this.setState({ selectedIndex: index, anchorEl: null });
+    const selectedUser = this.state.users[index].name;
+    this.setState({ 
+      selectedIndex: index, 
+      anchorEl: null,
+      listPrimaryText: 'User picked:',
+      listSecondaryText: selectedUser
+    }, () => {
+      this.props.pickUser(selectedUser);
+    });
   };
 
   handleClose = () => {
@@ -50,8 +60,8 @@ class UserPicker extends React.Component {
             onClick={this.handleClickListItem}
           >
             <ListItemText
-              primary="First pick a user"
-              secondary='(click)'
+              primary={this.state.listPrimaryText}
+              secondary={this.state.listSecondaryText}
             />
           </ListItem>
         </List>
@@ -64,11 +74,11 @@ class UserPicker extends React.Component {
           >
             {this.state.users.map((user, index) => (
               <MenuItem
-                key={user}
+                key={`${user.name}${index}`}
                 selected={index === this.state.selectedIndex}
                 onClick={event => this.handleMenuItemClick(event, index)}
               >
-                {user}
+                {user.name}
               </MenuItem>
             ))}
           </Menu>

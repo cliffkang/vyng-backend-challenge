@@ -14,6 +14,13 @@ const createUser = (req, res) => {
   }
 };
 
+const getAllUsers = (req, res) => {
+  User.find({})
+    .then(users => res.status(200).send({ users }))
+    .catch(err => res.status(422).send(err));
+};
+
 module.exports = {
   createUser,
+  getAllUsers,
 };

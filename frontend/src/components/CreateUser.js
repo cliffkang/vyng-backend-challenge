@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 import Snackbar from './Snackbar'
 import ROOT_URL from './config';
 
@@ -73,7 +74,10 @@ class CreateUser extends React.Component {
     return (
       <div className={classes.root}>
         <ExpansionPanel expanded={this.state.open}>
-          <ExpansionPanelSummary onClick={this.handleClick} expandIcon={<ExpandMoreIcon onClick={this.handleClick} />}>
+          <ExpansionPanelSummary 
+            onClick={this.handleClick} 
+            expandIcon={<ExpandMoreIcon />}
+          >
             <Typography className={classes.heading}>{this.state.title}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
@@ -98,7 +102,7 @@ class CreateUser extends React.Component {
           </ExpansionPanelDetails>
         </ExpansionPanel>
         {this.state.snackbar ? 
-          <Snackbar message='user successfully created'/>
+          <Snackbar message={this.state.snackbarMsg}/>
         : null }
       </div>
     );

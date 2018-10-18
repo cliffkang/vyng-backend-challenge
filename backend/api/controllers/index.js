@@ -1,4 +1,4 @@
-const { createUser } = require('./user');
+const { createUser, getAllUsers } = require('./user');
 const { createChannel, getAllChannels } = require('./channel');
 const { createVideo } = require('./video');
 
@@ -7,4 +7,5 @@ module.exports = {
   createChannel,
   getAllChannels,
   createVideo,
+  getAllUsers,
 };

@@ -4,6 +4,8 @@ import CreateChannel from './CreateChannel';
 import AddVideo from './AddVideo';
 import DisplayVideo from './DisplayVideo';
 import styled from 'styled-components';
+import axios from 'axios';
+import ROOT_URL from './config';
 
 const Creators = styled.div`
   width: 100%;
@@ -14,7 +16,17 @@ const Creators = styled.div`
 class Homepage extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      users: [],
+    };
+  }
+
+  componentDidMount() {
+    axios.get(`${ROOT_URL}/users`)
+      .then(allUsers => {
+        const { users } = allUsers.data;
+        this.setState({ users });
+      });
   }
 
   render() {
@@ -22,7 +34,7 @@ class Homepage extends Component {
       <div className='homepage'>
         <Creators>
           <CreateUser />
-          <CreateChannel />
+          <CreateChannel users={this.state.users}/>
           <AddVideo />
         </Creators>
         <DisplayVideo />

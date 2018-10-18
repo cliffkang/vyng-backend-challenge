@@ -3,6 +3,7 @@ const {
   createChannel,
   getAllChannels,
   createVideo,
+  getAllUsers,
 } = require('../controllers');
 
 module.exports = (server) => {
@@ -10,4 +11,5 @@ module.exports = (server) => {
   server.route('/channel').post(createChannel);
   server.route('/channels').get(getAllChannels);
   server.route('/video').post(createVideo);
+  server.route('/users').get(getAllUsers);
 };
