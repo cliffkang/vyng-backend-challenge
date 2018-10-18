@@ -2,6 +2,8 @@ import React from 'react';
 import UserPicker from './UserPicker';
 import ChannelPicker from './ChannelPicker';
 import DisplayTags from './DisplayTags';
+import YouTubeEmbed from './YouTubeEmbed';
+import YouTubeVids from './YouTubeVids';
 import styled from 'styled-components';
 
 const Displayer = styled.div`
@@ -21,7 +23,8 @@ class DisplayVideo extends React.Component {
       hashtags: ['zion t', 'ziont', 'iu', 'primary', 'hyukok', 'hyuok band'],
       users: ['cliff', 'art'],
       channels: ['kpop', 'bhangra', 'rock'],
-      videos: []
+      videos: ['nqMYG2Riq54'],
+      selected: 0,
     };
   };
 
@@ -33,8 +36,8 @@ class DisplayVideo extends React.Component {
           <ChannelPicker channels={this.state.channels}/>
         </div>
         <DisplayTags hashtags={this.state.hashtags}/>
-        {/* <YouTubeEmbed />
-        <YouTubeVids videos={this.state.videos}/> */}
+        <YouTubeEmbed video={this.state.videos[this.state.selected]}/>
+        <YouTubeVids videos={this.state.videos}/>
       </Displayer>
     )
   }
