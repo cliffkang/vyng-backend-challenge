@@ -12,12 +12,12 @@ const saveHashtag = (tag, videoId) => {
 };
 
 const createVideo = (req, res) => {
-  const { url, channel, hashtags } = req.body;
-  if (url && channel) {
-    const newVideo = new Video({ url });
+  const { youtubeId, url, channel, hashtags } = req.body;
+  if (url && channel && youtubeId) {
+    const newVideo = new Video({ url, youtubeId });
     Channel.findOne({ name: channel })
       .then((chan) => {
-        if (hashtags) newVideo.hashtags = hashtags;
+        newVideo.hashtags = hashtags;
         newVideo.channel = chan._id;
         newVideo.save()
           .then((video) => {

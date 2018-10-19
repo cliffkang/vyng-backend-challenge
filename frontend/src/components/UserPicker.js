@@ -11,6 +11,7 @@ const styles = theme => ({
   root: {
     width: '100%',
     maxWidth: 360,
+    minWidth: '250px',
     backgroundColor: '#9FA8DA',
   },
 });
@@ -31,7 +32,7 @@ class UserPicker extends React.Component {
   handleMenuItemClick = (event, index) => {
     const selectedUser = this.state.users[index].name;
     this.setState({ 
-      selectedIndex: index, 
+      selectedIndex: index,
       anchorEl: null,
       listPrimaryText: 'User picked:',
       listSecondaryText: selectedUser

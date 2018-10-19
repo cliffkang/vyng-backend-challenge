@@ -3,6 +3,10 @@ require('mongoose-type-url');
 const Channel = require('./channelModel');
 
 const VideoSchema = mongoose.Schema({
+  youtubeId: {
+    type: String,
+    required: true,
+  },
   url: {
     type: mongoose.SchemaTypes.Url,
     required: true,
@@ -11,7 +15,7 @@ const VideoSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: Channel,
   },
-  hashtags: [String],
+  hashtags: [{ type: String }],
 }, { timestamps: true });
 
 module.exports = mongoose.model('Video', VideoSchema);

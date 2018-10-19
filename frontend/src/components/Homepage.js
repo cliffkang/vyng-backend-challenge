@@ -18,6 +18,8 @@ class Homepage extends Component {
     super(props);
     this.state = {
       users: [],
+      addVidChannels: [],
+      pickVidChannels: [],
     };
   }
 
@@ -26,7 +28,17 @@ class Homepage extends Component {
       .then(allUsers => {
         const { users } = allUsers.data;
         this.setState({ users });
-      });
+      })
+      .catch(err => console.log('err getting users' + err));
+  }
+
+  getChannels = (addPick, owner) => {
+    const addOrPick = addPick === 'add' ? 'addVidChannels' : 'pickVidChannels';
+    axios.get(`${ROOT_URL}/channels?owner=${owner}`)
+      .then(allChannels => {
+        const { channels } = allChannels.data;
+        this.setState({ [addOrPick]: channels });
+      })
   }
 
   render() {
@@ -35,7 +47,11 @@ class Homepage extends Component {
         <Creators>
           <CreateUser />
           <CreateChannel users={this.state.users}/>
-          <AddVideo />
+          <AddVideo 
+            users={this.state.users}
+            channels={this.state.addVidChannels}
+            getChannels={this.getChannels}
+          />
         </Creators>
         <DisplayVideo />
       </div>

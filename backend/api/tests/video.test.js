@@ -64,6 +64,7 @@ describe('Video', () => {
         url: 'https://www.youtube.com',
         channel: testChannel.name,
         hashtags: ['cool', 'sexy'],
+        youtubeId: 'z4yfNY3WbUM',
       };
       chai
         .request(server)
@@ -81,6 +82,7 @@ describe('Video', () => {
         website: 'https://www.youtube.com', // error: website should be url
         channel: testChannel.name,
         hashtags: ['cool', 'sexy'],
+        youtubeId: 'z4yfNY3WbUM',
       };
       chai
         .request(server)
@@ -98,6 +100,7 @@ describe('Video', () => {
         url: 'https://www.youtube.com',
         channels: testChannel.name, // error: channels should be channel
         hashtags: ['cool', 'sexy'],
+        youtubeId: 'z4yfNY3WbUM',
       };
       chai
         .request(server)
@@ -115,6 +118,7 @@ describe('Video', () => {
         url: 'https://www.youtube.com',
         channel: 'testChannel.name', // shouldn't be string version
         hashtags: ['cool', 'sexy'],
+        youtubeId: 'z4yfNY3WbUM',
       };
       chai
         .request(server)

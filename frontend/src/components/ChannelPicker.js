@@ -11,6 +11,7 @@ const styles = theme => ({
   root: {
     width: '100%',
     maxWidth: 360,
+    minWidth: '250px',
     backgroundColor: '#F48FB1',
   },
 });
@@ -20,6 +21,8 @@ class ChannelPicker extends React.Component {
     anchorEl: null,
     selectedIndex: 1,
     channels: this.props.channels,
+    listPrimaryText: 'Then, pick a channel',
+    listSecondaryText: '(click)',
   };
 
   handleClickListItem = event => {
@@ -27,7 +30,16 @@ class ChannelPicker extends React.Component {
   };
 
   handleMenuItemClick = (event, index) => {
-    this.setState({ selectedIndex: index, anchorEl: null });
+    const selectedChannel = this.state.channels[index].name;
+    console.log('selectedChannel', selectedChannel);
+    this.setState({ 
+      selectedIndex: index,
+      anchorEl: null,
+      listPrimaryText: 'Channel picked:',
+      listSecondaryText: selectedChannel,
+    }, () => {
+      this.props.pickChannel(selectedChannel);
+    });
   };
 
   handleClose = () => {
@@ -50,8 +62,8 @@ class ChannelPicker extends React.Component {
             onClick={this.handleClickListItem}
           >
             <ListItemText
-              primary="Then, pick a channel"
-              secondary='(click)'
+              primary={this.state.listPrimaryText}
+              secondary={this.state.listSecondaryText}
             />
           </ListItem>
         </List>
@@ -64,11 +76,11 @@ class ChannelPicker extends React.Component {
             >
             {this.state.channels.map((channel, index) => (
                 <MenuItem
-                    key={channel}
+                    key={`${channel.name}${index}`}
                     selected={index === this.state.selectedIndex}
                     onClick={event => this.handleMenuItemClick(event, index)}
                 >
-                    {channel}
+                    {channel.name}
                 </MenuItem>
             ))}
             </Menu>
