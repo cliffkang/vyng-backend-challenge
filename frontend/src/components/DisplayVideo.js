@@ -21,9 +21,12 @@ const Displayer = styled.div`
   .tags {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
   }
   .vids {
     display: flex;
+    margin: 10px 0 20px 0;
   }
 `;
 

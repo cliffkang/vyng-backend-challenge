@@ -21,7 +21,7 @@ function DisplayTags(props) {
                         className={classes.button} 
                         onClick={props.handleTagClick(`${i}`)}
                         variant='outlined'
-                        style={{ backgroundColor: `${colors[Math.floor(Math.random() * 6)]}` }}
+                        style={{ backgroundColor: `${colors[Math.floor(Math.random() * 6)]}80` }}
                     >
                         #{tag}
                     </Button>

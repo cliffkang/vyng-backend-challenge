@@ -21,7 +21,7 @@ function YouTubeVids(props) {
                         className={classes.button}
                         onClick={props.handleVidClick(video)}
                         variant='outlined'
-                        style={{ backgroundColor: `${colors[Math.floor(Math.random() * 6)]}` }}
+                        style={{ backgroundColor: `${colors[Math.floor(Math.random() * 6)]}80` }}
                     >
                         ID#: {video}
                     </Button>

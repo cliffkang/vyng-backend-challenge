@@ -30,3 +30,5 @@ There's so much I could do with this, but here are a few:
 - add tests for the frontend
 - consider adding Redux...more if this were to be a bigger project
 - create a hashtag controller (instead of sticking it in video)
+- make a mobile design
+- get youtube video titles
