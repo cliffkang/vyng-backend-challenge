@@ -4,6 +4,7 @@ import ChannelPicker from './ChannelPicker';
 import DisplayTags from './DisplayTags';
 import YouTubeEmbed from './YouTubeEmbed';
 import YouTubeVids from './YouTubeVids';
+import Instructions from './Instructions';
 import styled from 'styled-components';
 import axios from 'axios';
 import ROOT_URL from './config';
@@ -14,6 +15,12 @@ const Displayer = styled.div`
   flex-direction: column;
   align-items: center;
   .pickers {
+    display: flex;
+  }
+  .tags {
+    display: flex;
+  }
+  .vids {
     display: flex;
   }
 `;
@@ -71,6 +78,7 @@ class DisplayVideo extends React.Component {
     return (
       <Displayer>
         <div className='pickers'>
+          <Instructions message='To display a video, start here ->'/>
           {this.state.users.length ? 
             <UserPicker 
               users={this.state.users}
@@ -84,14 +92,24 @@ class DisplayVideo extends React.Component {
             />
           : null}
         </div>
-        <DisplayTags
-          hashtags={this.state.hashtags}
-          handleTagClick={this.handleTagClick}
-        />
-        <YouTubeVids 
-          videos={this.state.videos}
-          handleVidClick={this.handleVidClick}
-        />
+        <div className='tags'>
+          {this.state.hashtags.length ? 
+            <Instructions message='Pick a tag to select from video(s)'/>
+          : null}
+          <DisplayTags
+            hashtags={this.state.hashtags}
+            handleTagClick={this.handleTagClick}
+          />
+        </div>
+        <div className='vids'>
+          {this.state.videos.length ?
+            <Instructions message='Finally, select a video!'/>
+          : null}
+          <YouTubeVids 
+            videos={this.state.videos}
+            handleVidClick={this.handleVidClick}
+          />
+        </div>
         <YouTubeEmbed video={this.state.video}/>
       </Displayer>
     )

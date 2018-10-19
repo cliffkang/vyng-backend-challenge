@@ -9,5 +9,7 @@ API expects data of type `JSON`.
 | -------------- |:--------------:| -----:|
 | 'POST' > '/user' | `body: { name }` | `{ name }` |
 | 'POST' > '/channel' | `body: { name, owner }` | `{ channel }` |
-| 'GET' > '/channels' | `body: { owner }` | `[channels]` |
+| 'GET' > '/channels' | `query = owner` | `[channels]` |
 | 'POST' > '/video' | `body: { url, channel }` | `{ video }` |
+| 'GET' > '/users' | `N/A` | `{ users }` |
+| 'GET' > '/hashtag' | `query=tag` | `{ videos }` |
