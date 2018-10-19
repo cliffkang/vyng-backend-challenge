@@ -109,7 +109,7 @@ class AddVideo extends React.Component {
     });
   };
 
-  pickChannel = (channel) => this.setState({ channel });
+  pickChannel = (channel) => this.setState({ channel: channel.name });
 
   render() {
     const { classes } = this.props;

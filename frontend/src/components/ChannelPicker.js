@@ -30,13 +30,12 @@ class ChannelPicker extends React.Component {
   };
 
   handleMenuItemClick = (event, index) => {
-    const selectedChannel = this.state.channels[index].name;
-    console.log('selectedChannel', selectedChannel);
+    const selectedChannel = this.state.channels[index];
     this.setState({ 
       selectedIndex: index,
       anchorEl: null,
       listPrimaryText: 'Channel picked:',
-      listSecondaryText: selectedChannel,
+      listSecondaryText: selectedChannel.name,
     }, () => {
       this.props.pickChannel(selectedChannel);
     });

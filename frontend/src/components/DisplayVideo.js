@@ -5,6 +5,8 @@ import DisplayTags from './DisplayTags';
 import YouTubeEmbed from './YouTubeEmbed';
 import YouTubeVids from './YouTubeVids';
 import styled from 'styled-components';
+import axios from 'axios';
+import ROOT_URL from './config';
 
 const Displayer = styled.div`
   width: 1200px;
@@ -20,24 +22,77 @@ class DisplayVideo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hashtags: ['zion t', 'ziont', 'iu', 'primary', 'hyukok', 'hyuok band'],
-      users: ['cliff', 'art'],
-      channels: ['kpop', 'bhangra', 'rock'],
-      videos: ['nqMYG2Riq54'],
+      hashtags: [],
+      users: this.props.users,
+      channels: this.props.channels,
+      videos: [],
       selected: 0,
+      user: '',
+      channel: '',
+      video: '',
     };
   };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.channels !== nextProps.channels) {
+      return { channels: nextProps.channels };
+    }
+    if (prevState.users !== nextProps.users) {
+      return { users: nextProps.users };
+    }
+    return null;
+  }
+
+  pickUser = (user) => {
+    this.setState({ user }, () => {
+      this.props.getChannels('display', this.state.user);
+    });
+  };
+
+  pickChannel = (channel) => {
+    const { hashtags } = channel;
+    this.setState({ channel: channel.name, hashtags })
+  };
+
+  handleTagClick = (index) => (event) => {
+    const tag = this.state.hashtags[index];
+    axios.get(`${ROOT_URL}/hashtag?tag=${tag}`)
+      .then((videosForHashtag) => {
+        const { videos } = videosForHashtag.data;
+        this.setState({ videos });
+      });
+  }
+
+  handleVidClick = (youtubeId) => (event) => {
+    this.setState({ video: youtubeId });
+  }
 
   render() {
     return (
       <Displayer>
         <div className='pickers'>
-          <UserPicker users={this.state.users}/>
-          <ChannelPicker channels={this.state.channels}/>
+          {this.state.users.length ? 
+            <UserPicker 
+              users={this.state.users}
+              pickUser={this.pickUser}
+            />
+          : null}
+          {this.state.channels.length ? 
+            <ChannelPicker 
+              channels={this.state.channels}
+              pickChannel={this.pickChannel}
+            />
+          : null}
         </div>
-        <DisplayTags hashtags={this.state.hashtags}/>
-        <YouTubeEmbed video={this.state.videos[this.state.selected]}/>
-        <YouTubeVids videos={this.state.videos}/>
+        <DisplayTags
+          hashtags={this.state.hashtags}
+          handleTagClick={this.handleTagClick}
+        />
+        <YouTubeVids 
+          videos={this.state.videos}
+          handleVidClick={this.handleVidClick}
+        />
+        <YouTubeEmbed video={this.state.video}/>
       </Displayer>
     )
   }

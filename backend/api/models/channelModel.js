@@ -14,6 +14,7 @@ const ChannelSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: User,
   },
+  hashtags: [{ type: String }],
 }, { timestamps: true });
 
 module.exports = mongoose.model('Channel', ChannelSchema);

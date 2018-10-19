@@ -14,12 +14,12 @@ function DisplayTags(props) {
     const { classes } = props;
     return (
         <div className='tags'>
-            {props.hashtags.map(tag => {
+            {props.hashtags.map((tag,i) => {
                 return (
                     <Button
                         key={tag}
                         className={classes.button} 
-                        onClick={props.handleSubmit}
+                        onClick={props.handleTagClick(`${i}`)}
                         variant='outlined'
                         style={{ backgroundColor: `${colors[Math.floor(Math.random() * 6)]}` }}
                     >

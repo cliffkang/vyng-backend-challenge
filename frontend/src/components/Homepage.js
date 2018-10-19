@@ -19,7 +19,7 @@ class Homepage extends Component {
     this.state = {
       users: [],
       addVidChannels: [],
-      pickVidChannels: [],
+      displayVidChannels: [],
     };
   }
 
@@ -33,12 +33,12 @@ class Homepage extends Component {
   }
 
   getChannels = (addPick, owner) => {
-    const addOrPick = addPick === 'add' ? 'addVidChannels' : 'pickVidChannels';
+    const addOrPick = addPick === 'add' ? 'addVidChannels' : 'displayVidChannels';
     axios.get(`${ROOT_URL}/channels?owner=${owner}`)
       .then(allChannels => {
         const { channels } = allChannels.data;
         this.setState({ [addOrPick]: channels });
-      })
+      });
   }
 
   render() {
@@ -53,7 +53,11 @@ class Homepage extends Component {
             getChannels={this.getChannels}
           />
         </Creators>
-        <DisplayVideo />
+        <DisplayVideo 
+          users={this.state.users}
+          channels={this.state.displayVidChannels}
+          getChannels={this.getChannels}
+        />
       </div>
     );
   }

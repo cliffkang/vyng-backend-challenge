@@ -4,6 +4,7 @@ const {
   getAllChannels,
   createVideo,
   getAllUsers,
+  getVideosFromHashtag,
 } = require('../controllers');
 
 module.exports = (server) => {
@@ -12,4 +13,5 @@ module.exports = (server) => {
   server.route('/channels').get(getAllChannels);
   server.route('/video').post(createVideo);
   server.route('/users').get(getAllUsers);
+  server.route('/hashtag').get(getVideosFromHashtag);
 };

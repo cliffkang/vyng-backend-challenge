@@ -10,10 +10,7 @@ const HashtagSchema = mongoose.Schema({
     minlength: 2,
     maxlength: 50,
   },
-  videos: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: Video,
-  }],
+  videos: [{ type: String }],
 }, { timestamps: true });
 
 module.exports = mongoose.model('Hashtag', HashtagSchema);

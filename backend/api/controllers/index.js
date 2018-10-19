@@ -1,6 +1,6 @@
 const { createUser, getAllUsers } = require('./user');
 const { createChannel, getAllChannels } = require('./channel');
-const { createVideo } = require('./video');
+const { getVideosFromHashtag, createVideo } = require('./video');
 
 module.exports = {
   createUser,
@@ -8,4 +8,5 @@ module.exports = {
   getAllChannels,
   createVideo,
   getAllUsers,
+  getVideosFromHashtag,
 };
