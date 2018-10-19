@@ -14,11 +14,13 @@ const Displayer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 auto;
   .pickers {
     display: flex;
   }
   .tags {
     display: flex;
+    flex-wrap: wrap;
   }
   .vids {
     display: flex;
